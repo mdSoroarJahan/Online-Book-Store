@@ -1,27 +1,20 @@
 <?php
 
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "online_book_store";
+class Database
+{
+    private $host = "localhost";
+    private $username = "root";
+    private $password = "";
+    private $database = "online_book_store";
+    public $conn;
 
-$conn = new mysqli($host, $username, $password, $database);
-
-
-
-//Insert 
-$insertSQL = "INSERT INTO `books`(`title`, `price`, `stock_quantity`, `author_id`) VALUE('Test Book Title', '100', 5, 2)";
-$insertResult = $conn->query($insertSQL);
-
-if ($insertResult) {
-    echo "Data Inserted";
-} else {
-    echo "Failed";
+    public function __construct()
+    {
+        $this->conn = new mysqli($this->host, $this->username, $this->password, $this->database);
+        if ($this->conn->connect_errno) {
+            die("Connection Failed");
+        }
+    }
 }
 
-//Select or Read
-$selectSQL = "SELECT * FROM `books`";
-$result = $conn->query($selectSQL);
-
-$fetchData = $result->fetch_all(MYSQLI_ASSOC);
-print_r($fetchData);
+class Books {}
