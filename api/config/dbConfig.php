@@ -11,10 +11,13 @@ class Database
     public function __construct()
     {
         $this->conn = new mysqli($this->host, $this->username, $this->password, $this->database);
-        if ($this->conn->connect_errno) {
+        if ($this->conn->connect_error) {
             die("Connection Failed");
         }
     }
-}
 
-class Books {}
+    public function getConnection()
+    {
+        return $this->conn;
+    }
+}
