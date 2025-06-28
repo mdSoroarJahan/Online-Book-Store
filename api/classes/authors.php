@@ -56,7 +56,7 @@ class Authors
     // Update an existing author
     public function updateAuthor($author_id, $name, $email)
     {
-        $updateSQL = "UPDATE" . $this->table_name . "SET name = ?, email = ? WHERE author_id = ?";
+        $updateSQL = "UPDATE " . $this->table_name . " SET name = ?, email = ? WHERE author_id = ?";
         $stmt = $this->dbConn->prepare($updateSQL);
 
         if ($stmt) {
