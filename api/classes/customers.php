@@ -27,7 +27,7 @@ class customers
     // Fetch a single customer by ID
     public function getCustomerById($customer_id)
     {
-        $selectSQL = "SELECT * FROM " . $this->table_name . "WHERE customer_id = ?";
+        $selectSQL = "SELECT * FROM " . $this->table_name . " WHERE customer_id = ?";
         $stmt = $this->dbConn->prepare($selectSQL);
 
         if ($stmt) {
@@ -71,7 +71,7 @@ class customers
     // Delete a customer by id
     public function deleteCustomer($customer_id)
     {
-        $deleteSQL = "DELETE FROM " . $this->table_name . "WHERE customer_id = ?";
+        $deleteSQL = "DELETE FROM " . $this->table_name . " WHERE customer_id = ?";
         $stmt = $this->dbConn->prepare($deleteSQL);
 
         if ($stmt) {

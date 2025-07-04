@@ -26,7 +26,7 @@ class Authors
     // Fetch a single author by ID
     public function getAuthorsById($author_id)
     {
-        $selectSQL = "SELECT * FROM " . $this->table_name . " WHERE author_id = ?";
+        $selectSQL = "SELECT * FROM " . $this->table_name . " WHERE author_id = ?";  // Added space before WHERE
         $stmt = $this->dbConn->prepare($selectSQL);
 
         if ($stmt) {

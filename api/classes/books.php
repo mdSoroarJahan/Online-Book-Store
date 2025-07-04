@@ -41,7 +41,7 @@ class Books
     // create book
     public function createBook($title, $price, $stock, $author_id)
     {
-        $insertSQL = "INSERT INTO " . $this->table_name . "(`title`, `price`, `stock_quantity`, `author_id`) VALUES (?, ?, ?, ?)";
+        $insertSQL = "INSERT INTO " . $this->table_name . " (`title`, `price`, `stock_quantity`, `author_id`) VALUES (?, ?, ?, ?)";
         $stmt = $this->dbConn->prepare($insertSQL);
 
         if ($stmt) {
@@ -55,7 +55,7 @@ class Books
     // Update an existing book
     public function updateBook($book_id, $title, $price, $stock, $author_id)
     {
-        $updateSQL = "UPDATE " . $this->table_name . "SET title = ?, price = ?, stock_quantity=?, author_id = ? WHERE book_id = ?";
+        $updateSQL = "UPDATE " . $this->table_name . " SET title = ?, price = ?, stock_quantity=?, author_id = ? WHERE book_id = ?";
         $stmt = $this->dbConn->prepare($updateSQL);
 
         if ($stmt) {
@@ -69,7 +69,7 @@ class Books
     // Delete a book by ID
     public function deleteBook($book_id)
     {
-        $deleteSQL = "DELETE FROM " . $this->table_name . "WHERE book_id = ?";
+        $deleteSQL = "DELETE FROM " . $this->table_name . " WHERE book_id = ?";
         $stmt = $this->dbConn->prepare($deleteSQL);
 
         if ($stmt) {
