@@ -12,7 +12,7 @@ class Authors
     // Fetch all authors
     public function getAuthors()
     {
-        $selectSQL = "SELECT * FROM" . $this->table_name;
+        $selectSQL = "SELECT * FROM " . $this->table_name;
         $stmt = $this->dbConn->prepare($selectSQL);
 
         if ($stmt->execute()) {
@@ -26,7 +26,7 @@ class Authors
     // Fetch a single author by ID
     public function getAuthorsById($author_id)
     {
-        $selectSQL = "SELECT * FROM" . $this->table_name . "WHERE author_id = ?";
+        $selectSQL = "SELECT * FROM " . $this->table_name . " WHERE author_id = ?";
         $stmt = $this->dbConn->prepare($selectSQL);
 
         if ($stmt) {
@@ -42,7 +42,7 @@ class Authors
     // Insert a new author
     public function createAuthor($name, $email)
     {
-        $insertSQL = "INSERT INTO" . $this->table_name . "(`name`, `email`) VALUE (?,?)";
+        $insertSQL = "INSERT INTO " . $this->table_name . " (`name`, `email`) VALUE (?,?)";
         $stmt = $this->dbConn->prepare($insertSQL);
 
         if ($stmt) {
@@ -70,7 +70,7 @@ class Authors
     // Delete an author by ID
     public function deleteAuthor($author_id)
     {
-        $deleteSQL = "DELETE FROM" . $this->table_name . "WHERE author_id = ?";
+        $deleteSQL = "DELETE FROM " . $this->table_name . " WHERE author_id = ?";
         $stmt = $this->dbConn->prepare($deleteSQL);
 
         if ($stmt) {
