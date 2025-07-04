@@ -2,7 +2,7 @@
 require_once '../../config/dbConfig.php';
 require_once '../../classes/authors.php';
 
-header("Content-type: application/json");
+header("Content-Type: application/json");
 
 $dbObj = new Database();
 $databaseConnection = $dbObj->getConnection();
