@@ -42,7 +42,7 @@ class Authors
     // Insert a new author
     public function createAuthor($name, $email)
     {
-        $insertSQL = "INSERT INTO " . $this->table_name . " (`name`, `email`) VALUE (?,?)";
+        $insertSQL = "INSERT INTO " . $this->table_name . " (`name`, `email`) VALUES (?,?)";
         $stmt = $this->dbConn->prepare($insertSQL);
 
         if ($stmt) {
