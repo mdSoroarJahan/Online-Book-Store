@@ -9,7 +9,7 @@ class Books
         $this->dbConn = $databaseConnection;
     }
 
-    public function getBook()
+    public function getBooks()
     {
         $selectSQLNew = "SELECT * FROM " . $this->table_name;
         $stmt = $this->dbConn->prepare($selectSQLNew);
