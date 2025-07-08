@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Author Management</h1>
+        <a href="" class="button">Add New</a>
+
+        <div class="row">
+            <div class="column">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Delete</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="authorList">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        async function getAuthors(){
+            let URL = "http://localhost:3000/api/view/authors/readAuthor.php";
+
+            let response = await axios.get(URL);
+            let authors = response.data;
+
+            authors.forEach((author)=>{
+                let authorList = `
+                        <tr>
+                            <td>${author['author_id']}</td>
+                            <td>${author['name']}</td>
+                            <td>${author['email']}</td>
+                            <td><button>Edit</button></td>
+                            <td><button onclick="deleteAuthor(${author['author_id']})">Delete</button></td>
+                        </tr>
+                `;
+                document.getElementById("authorList").innerHTML += authorList;
+            })
+        }
+        getAuthors();
+
+        // Delete Author
+        async function deleteAuthor(id) {
+            let URL = "http://localhost:3000/api/view/authors/deleteAuthor.php";
+
+            let formData = new FormData();
+            formData.append("author_id",id);
+
+            let response = await axios.post(URL,formData);
+
+            document.getElementById("authorList").innerHTML = '';
+            getAuthors();
+        }
+    </script>
+</body>
+</html>
