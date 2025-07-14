@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Author</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Update Author</h1>
+        <div class="row">
+            <div class="column">
+                <label for="">Name</label>
+                <input id="nameID" type="text">
+
+                <label for="">Email</label>
+                <input id="emailID" type="email">
+
+                <button onclick="updateAuthor()">SAVE</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        async function getAuthorsDetails(){
+            let urlParam = new URLSearchParams(window.location.search);
+            let authorID = urlParam.get('author_id');
+            let URL = `http://localhost:3000/api/view/authors/getAuthorById.php?author_id=${authorID}`;
+            let response = await axios.get(URL);
+
+            document.getElementById("nameID").value = response.data.name;
+            document.getElementById("emailID").value = response.data.email;
+        }
+        getAuthorsDetails();
+
+        async function updateAuthor(){
+            let urlParam = new URLSearchParams(window.location.search);
+            let authorID = urlParam.get('author_id');
+
+            let authorName = document.getElementById("nameID").value;
+            let authorEmail = document.getElementById("emailID").value;
+
+            let formData = new FormData();
+            formData.append("author_id",authorID);
+            formData.append("name",authorName);
+            formData.append("email",authorEmail);
+
+            let URL = "http://localhost:3000/api/view/authors/updateAuthor.php"
+
+            let response = await axios.post(URL,formData);
+            window.location = "index.html";
+        }
+        
+    </script>
+</body>
+</html>

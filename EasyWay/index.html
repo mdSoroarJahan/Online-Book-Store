@@ -47,7 +47,7 @@
                             <td>${author['author_id']}</td>
                             <td>${author['name']}</td>
                             <td>${author['email']}</td>
-                            <td><button>Edit</button></td>
+                            <td><button onclick="goToUpdate(${author['author_id']})">Edit</button></td>
                             <td><button onclick="deleteAuthor(${author['author_id']})">Delete</button></td>
                         </tr>
                 `;
@@ -68,6 +68,12 @@
             document.getElementById("authorList").innerHTML = '';
             getAuthors();
         }
+
+        //Edit data details
+        function goToUpdate(id){
+            window.location = `updateAuthor.html?author_id=${id}`;
+        }
+
     </script>
 </body>
 </html>
