@@ -285,7 +285,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <P>Once you delete can not retrive !</P>
+            <P>Once you delete can not retrieve !</P>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
@@ -370,31 +370,28 @@
 
 <script>
     async function getAuthors(){
-
-        let URL = "https://bs-api.sobuj.net/view/authors/readAuthors.php";
+        let URL = "http://localhost:3000/api/view/authors/readAuthor.php";
         let tableData = document.getElementById("authorList");
-
+        
         try{
             //show loading message
-            tableData.innerHTML = "<tr><td colspan='5'>Loading.....</td></tr>";
+            tableData.innerHTML = "<tr><td colspan = '5'>Loading...</td></tr>";
 
-            //Fetch API from authors
+            // Fetch API from author
             let response = await axios.get(URL);
             let authors = response.data;
 
             //Clear loading message
             tableData.innerHTML = "";
 
-            //If no data exists .. show a text
-
+            // If no data exists .. show a text
             if(!authors.length){
                 tableData.innerHTML = "<tr><td colspan='5'>No Author found</td></tr>";
                 return;
             }
 
-            //Append data to table
-
-            authors.forEach((author)=>{
+            // Append data to table
+            authors.forEach((author) => {
                 let row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${author['author_id']}</td>
@@ -406,171 +403,158 @@
                 tableData.appendChild(row);
             });
 
-            //Add event listner for update data fetch
+            // add event listener for update data fetch
             document.querySelectorAll('.update-btn').forEach(btn=>{
                 btn.addEventListener('click',function(){
                     goToUpdate(this.dataset.id);
-                });
+                }); 
             });
 
-            //Add event listner for delete data fetch
+            // add event listener for delete data fetch
             document.querySelectorAll('.delete-btn').forEach(btn=>{
                 btn.addEventListener('click',function(){
                     deleteAuthor(this.dataset.id);
-                });
+                }); 
             });
-
 
         } catch(error){
             console.error("Error for authors:",error);
-            tableData.innerHTML = "<tr><td colspan='5'>Failed to load author, try again</td></tr>";
-
+            tableData.innerHTML = "<tr><td colspan='5'>Failed to load author, try again</td></tr>"
         } finally{
-            console.log("Author fetch atte completed");
+            console.log("Author fetch attempt completed");
         }
     }
-
     getAuthors();
 
-    async function addAuthor(){
-        let URL = "https://bs-api.sobuj.net/view/authors/insertAuthor.php";
+    async function addAuthor() {
+        let URL = "http://localhost:3000/api/view/authors/insertAuthor.php";
+
         let authorName = document.getElementById("nameID").value.trim();
         let authorEmail = document.getElementById("emailID").value.trim();
 
         try{
-            //Validate
+            // Validate
             if(!authorName || !authorEmail){
                 alert("All data required");
                 return;
             }
 
-            //Append Data
+            // Append Data
             let formData = new FormData();
             formData.append("name",authorName);
             formData.append("email",authorEmail);
 
-            //send the request
-            let response = await axios.post(URL,formData);
+            // send the request
+            let response = await axios.post(URL, formData);
 
-            //Check API response
+            // Check API response
             if(response.status === 200){
                 alert("Author successfully inserted");
                 document.getElementById("nameID").value = "";
                 document.getElementById("emailID").value = "";
 
-                //Close Modal
+                // close modal
                 let modal = bootstrap.Modal.getInstance(document.getElementById("addAuthorModal"));
                 modal.hide();
 
-                //Refresh the list
+                // Refresh the list
                 getAuthors();
-            }else{
+            } else{
                 alert("Failed to add author");
             }
-
-
         } catch(error){
-            console.error("Erors for adding author",error);
+            console.error("Error for adding author", error);
             alert("Failed, try again");
         } finally{
-            console.log("Author add att completed");
-        };
-
+            console.log("Author added successfully");
+        }
     }
 
+    
     let editAuthorID = null;
-    //Get update data details
+    // Get Update data details
     async function goToUpdate(authorID){
-        let URL = `https://bs-api.sobuj.net/view/authors/getAuthorById.php?author_id=${authorID}`;
+        let URL = `http://localhost:3000/api/view/authors/getAuthorById.php?author_id=${authorID}`;
 
         try{
             let response = await axios.get(URL);
             let authorData = response.data;
 
             if(authorData){
-                //populate data
+                // populate data
                 document.getElementById("nameIDE").value = authorData.name;
                 document.getElementById("emailIDE").value = authorData.email;
                 editAuthorID = authorID;
 
-                //show modal
+                // show modal
                 let editModal = new bootstrap.Modal(document.getElementById("editAuthorModal"));
                 editModal.show();
             }else{
                 alert("Author not found");
             }
 
+
         } catch(error){
-            console.error("Text",error);
+            console.error("Text", error);
             alert("Author load failed");
         }
-
-
     }
+    async function updateAuthor() {
+        let URL = "http://localhost:3000/api/view/authors/updateAuthor.php";
 
-
-    async function updateAuthor(){
-        let URL = "https://bs-api.sobuj.net/view/authors/updateAuthor.php";
         let authorName = document.getElementById("nameIDE").value.trim();
         let authorEmail = document.getElementById("emailIDE").value.trim();
 
         try{
-            //Validate
+            // Validate
             if(!authorName || !authorEmail){
                 alert("All data required");
                 return;
             }
 
-            //Append Data
+            // Append Data
             let formData = new FormData();
             formData.append("author_id",editAuthorID);
             formData.append("name",authorName);
             formData.append("email",authorEmail);
 
-            //send the request
-            let response = await axios.post(URL,formData);
+            // send the request
+            let response = await axios.post(URL, formData);
 
-            //Check API response
+            // Check API response
             if(response.status === 200){
-                alert("Author successfully Updated");
+                alert("Author successfully updated");
                 document.getElementById("nameIDE").value = "";
                 document.getElementById("emailIDE").value = "";
 
-                //Close Modal
+                // close modal
                 let modal = bootstrap.Modal.getInstance(document.getElementById("editAuthorModal"));
                 modal.hide();
 
-                //Refresh the list
+                // Refresh the list
                 getAuthors();
-            }else{
-                alert("Failed to Update author");
+            } else{
+                alert("Failed to update author");
             }
-
-
         } catch(error){
-            console.error("Erors for update author",error);
+            console.error("Error for updating author", error);
             alert("Failed, try again");
         } finally{
-            console.log("Author update att completed");
-        };
-
+            console.log("Author updated successfully");
+        }
     }
 
-
-    //Delete modal show
     let deleteAuthorID = null;
-
     function deleteAuthor(authorID){
         deleteAuthorID = authorID;
-        //show delete modal
+        // show delete modal
         let deleteModal = new bootstrap.Modal(document.getElementById("deleteAuthorModal"));
         deleteModal.show();
     }
 
-    //Delete finally
-
+    // Delete
     async function deleteAuthorFinally(){
-        let URL = "https://bs-api.sobuj.net/view/authors/deleteAuthor.php";
+        let URL = "http://localhost:3000/api/view/authors/deleteAuthor.php";
 
         try{
             if(!deleteAuthorID){
@@ -578,31 +562,30 @@
                 return;
             }
 
-            //Append data
+            // Append data
             let formData = new FormData();
             formData.append("author_id",deleteAuthorID);
 
-            //send the req
+            // send request
             let response = await axios.post(URL,formData);
 
-            //check API response
+            // Check API response
             if(response.status===200){
                 alert("Success");
 
-                //close the modal
+                // Close the modal
                 let modal = bootstrap.Modal.getInstance(document.getElementById("deleteAuthorModal"));
                 modal.hide();
 
-                //refresh
+                // refresh
                 getAuthors();
             }else{
                 alert("Failed to delete author");
             }
         } catch(error){
-            console.error("Test ",error);
-            alert("Delete failed, try again");
-        }
-
+            console.error("Test",error);
+            alert("Failed to Delete, Try again");
+        };
     }
 </script>
 
